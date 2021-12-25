@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MingweiSamuel.Camille" Version="2.9.1-nightly-2021-11-21-e51fc47db2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

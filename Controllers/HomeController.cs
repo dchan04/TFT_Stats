@@ -5,8 +5,11 @@ using MingweiSamuel.Camille.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
+using System.Text.Json;
 using System.Threading;
 using TFT_Stats.Models;
+using Newtonsoft.Json;
 
 namespace TFT_Stats.Controllers
 {
@@ -21,7 +24,21 @@ namespace TFT_Stats.Controllers
 
         public IActionResult Index()
         {
-            var riotApi = RiotApi.NewInstance("RGAPI-72a76fa1-9258-4006-b75e-03297ee07552");
+            //TestRiotApi();
+            TestCompanionJson();
+            return View();
+        }
+
+        public void TestCompanionJson()
+        {
+            var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
+            dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json); 
+            Console.WriteLine(jObj);
+        }
+        
+        public void TestRiotApi()
+        {
+            var riotApi = RiotApi.NewInstance("RGAPI-23f5e1ab-6307-4cce-9329-570b7e05750c");
             var tier = "DIAMOND";
             var division = "I";
             //riotApi.TftLeagueV1.GetLeagueEntries(region1, tier, division)
@@ -33,12 +50,12 @@ namespace TFT_Stats.Controllers
             //};
             var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);
             List<String> summonerIdList = new List<string>();
-            List<String> puuidList = new List<string>(); 
-            foreach(var item in entry)
-            {   
+            List<String> puuidList = new List<string>();
+            foreach (var item in entry)
+            {
                 //Console.WriteLine($"SummonerId: {item.SummonerId}");
-                summonerIdList.Add(item.SummonerId.ToString()); 
-            } 
+                summonerIdList.Add(item.SummonerId.ToString());
+            }
             Console.WriteLine($"Count: {summonerIdList.Count}");
 
             //Get Puuid from summonerID
@@ -50,9 +67,8 @@ namespace TFT_Stats.Controllers
             Console.WriteLine($"matchID: {matchList[0]}");
 
             //Get match details
-            var match = riotApi.TftMatchV1.GetMatch(Region.Americas, matchList[0]);
-            Console.WriteLine($"match:{match}");
-
+            var match = riotApi.TftMatchV1.GetMatch(Region.Americas, matchList[1]);
+            Console.WriteLine($"match:{match.Info.Participants[0].Companion}");
 
             /*
             foreach (var summoner in summoners)
@@ -75,7 +91,7 @@ namespace TFT_Stats.Controllers
                 Console.WriteLine();
             }
             */
-            return View();
+            return;
         }
 
         public IActionResult Privacy()
