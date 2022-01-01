@@ -1,34 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 using MingweiSamuel.Camille;
 using MingweiSamuel.Camille.Enums;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
-using TFT_Stats.Models;
 
-namespace TFT_Stats.Controllers
+namespace TFT_Stats.Services
 {
-    public class HomeController : Controller
+    public class TFT_DataService : IHostedService
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private Timer _timer;
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger = logger;
+            _timer = new Timer(TestCompanionJson, null, 0, 10000);
+            return Task.CompletedTask;
         }
 
-        public IActionResult Index()
-        {
-            //TestRiotApi();
-            //TestCompanionJson();
-            return View();
-        }
-
-        public void TestCompanionJson()
+        private void TestCompanionJson(object state)
         {
             var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
             dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
@@ -41,7 +33,6 @@ namespace TFT_Stats.Controllers
             string pngName = splitPath[splitPath.Length - 1].ToLower();
             string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/" + pngName;
             Console.WriteLine($"image file name: {path}");
-            return;
         }
 
         public void TestRiotApi()
@@ -87,19 +78,11 @@ namespace TFT_Stats.Controllers
                 }
             }
             Console.WriteLine("Done...");
-            return;
         }
-
-        public IActionResult Privacy()
+        public Task StopAsync(CancellationToken cancellationToken)
         {
-            return View();
+            _timer?.Change(Timeout.Infinite, 0);
+            return Task.CompletedTask;
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
     }
 }
