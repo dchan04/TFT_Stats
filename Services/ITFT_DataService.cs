@@ -6,6 +6,8 @@ namespace TFT_Stats.Services
     public interface ITFT_DataService
     {
         void UpdateDB();
+
+        void TestDBUsage();
         void TestCompanionJson();
         void TestRiotApi();
 

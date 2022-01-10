@@ -12,12 +12,14 @@ using Microsoft.IdentityModel.Protocols;
 using TFT_Stats.Data;
 using TFT_Stats.Models;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace TFT_Stats.Services
 {
     public class TFT_DataService : ITFT_DataService
     {
         private TFTDbContext _context;
+        protected readonly IConfiguration Configuration;
 
         public TFT_DataService(TFTDbContext context)
         {
@@ -42,6 +44,41 @@ namespace TFT_Stats.Services
             _context.SaveChanges();
         }
 
+        public void TestDBUsage()
+        {
+            var companions = _context.Companions.ToList();
+            Console.WriteLine($"{companions.Count} companions" );
+            var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
+            dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
+            foreach (var companion in companions)
+            {
+
+                var updateCompanion = _context.Companions.SingleOrDefault(c => c.Id == companion.Id);
+                string token = "$.[?(@.contentId == '" + companion.RiotCompanionID + "')]";
+                JToken iconLocation = jObj.SelectToken(token);
+
+                //Get companion values from JSON
+                string imgLocation = (string)iconLocation["loadoutsIcon"];
+                string companionName = (string)iconLocation["name"];
+                string speciesName = (string)iconLocation["speciesName"];
+                int level = (int)iconLocation["level"];
+
+                string[] splitPath = imgLocation.Split("/");
+                string pngName = splitPath[splitPath.Length - 1].ToLower();
+                string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/" + pngName;
+
+                //Update Companion values in database
+                updateCompanion.ImgPath = path;
+                updateCompanion.Name = companionName;
+                updateCompanion.Species = speciesName;
+                updateCompanion.Level = level;
+
+                Console.WriteLine("Updated!");
+                //Console.WriteLine($"image file name: {path} - Name:{companionName} -- species: {speciesName} -- level: {level}");
+            }
+            _context.SaveChanges();
+        }
+
         public void TestCompanionJson()
         {
             var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
@@ -59,7 +96,8 @@ namespace TFT_Stats.Services
 
         public void TestRiotApi()
         {
-            var riotApi = RiotApi.NewInstance("RGAPI-6ac15d8a-3dcb-442a-91d5-62cfdb403c9e");
+            //var riotApi = RiotApi.NewInstance("RGAPI-6ac15d8a-3dcb-442a-91d5-62cfdb403c9e");
+            var riotApi = RiotApi.NewInstance(Configuration.GetConnectionString("ApiKey"));
             var tier = "DIAMOND";
             var division = "I";
             var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);

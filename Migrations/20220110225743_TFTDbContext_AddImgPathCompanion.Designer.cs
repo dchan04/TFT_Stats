@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TFT_Stats.Data;
 
 namespace TFT_Stats.Migrations
 {
     [DbContext(typeof(TFTDbContext))]
-    partial class TFTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220110225743_TFTDbContext_AddImgPathCompanion")]
+    partial class TFTDbContext_AddImgPathCompanion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

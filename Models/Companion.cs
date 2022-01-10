@@ -7,10 +7,16 @@ namespace TFT_Stats.Models
     {
         [Key]
         public int Id { get; set; }
+        public int SkinID { get; set; }
+
+        public int? Level { get; set; }
 
         public string RiotCompanionID { get; set; }
 
-        public int SkinID { get; set; }
+        public string Name { get; set; }
 
+        public string Species { get; set; }
+
+        public string ImgPath { get; set; }
     }
 }

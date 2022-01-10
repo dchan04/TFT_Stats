@@ -1,14 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TFT_Stats.Services;
 using Hangfire;
 using TFT_Stats.Data;
@@ -60,6 +55,7 @@ namespace TFT_Stats
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello Hangfire Job!"));
             //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestCompanionJson());
             //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestRiotApi());
+            backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestDBUsage());
 
             /*recurringJobManager.AddOrUpdate("Run every minute", 
                 () => Console.WriteLine("Hello Reccuring Job!"),

@@ -11,7 +11,7 @@ namespace TFT_Stats.Models
         public string RiotMatchID { get; set; }
 
         //Relationships
-        public List<Participant> Participants{ get; set; }
+        public ICollection<Participant> Participants{ get; set; } = new List<Participant>();
 
     }
 }
