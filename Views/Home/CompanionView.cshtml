@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TFT_Stats.Models.ViewModel.CompanionVM>
+<style>
+    img {
+        width: 200px;
+        height: auto;
+    }
+</style>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImgUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Species)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://cdn.iconscout.com/icon/premium/png-256-thumb/image-missing-1178918.png")';this.onerror='';" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Species)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+            </tr>
+        }
+    </tbody>
+</table>

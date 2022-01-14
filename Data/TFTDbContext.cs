@@ -2,6 +2,7 @@
 using TFT_Stats.Models;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using TFT_Stats.Models.ViewModel;
 
 namespace TFT_Stats.Data
 {
@@ -25,5 +26,7 @@ namespace TFT_Stats.Data
         public DbSet<Match> Matches { get; set; }
 
         public DbSet<Companion> Companions { get; set; }
+
+        public DbSet<TFT_Stats.Models.ViewModel.CompanionVM> CompanionViewModel { get; set; }
     }
 }
