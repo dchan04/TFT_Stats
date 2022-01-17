@@ -54,8 +54,11 @@ namespace TFT_Stats
 
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello Hangfire Job!"));
             //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestCompanionJson());
-            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestRiotApi());
+            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo());
             //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().DbUsage());
+
+            //var firstJob = backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestRiotApi());
+            //backgroundJobClient.ContinueJobWith(firstJob, () => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo());
 
             /*recurringJobManager.AddOrUpdate("Run every minute", 
                 () => Console.WriteLine("Hello Reccuring Job!"),

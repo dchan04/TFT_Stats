@@ -33,7 +33,8 @@ namespace TFT_Stats.Controllers
 
         public IActionResult CompanionView()
         {
-            var companions = _context.Companions.ToList();
+            //var companions = _context.Companions.ToList();
+            //Console.WriteLine($"Count: {companions.Count}");
             List<CompanionVM> companionVMList = new();
 
             //Get all unique companion names
@@ -74,7 +75,8 @@ namespace TFT_Stats.Controllers
                 objVM.ImgUrl = cSpecies.imgPath;
                 companionVMList.Add(objVM);
             }
-            return View(companionVMList);
+            var OrderedList = companionVMList.OrderByDescending(c => c.Count).ToList();
+            return View(OrderedList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

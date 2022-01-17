@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ImgUrl)
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -18,13 +18,13 @@
                 @Html.DisplayNameFor(model => model.Species)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Level1)
+                Level 1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Level2)
+                Level 2
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Level3)
+                Level 3
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Count)
@@ -37,7 +37,7 @@
         {
             <tr>
                 <td>
-                    <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://cdn.iconscout.com/icon/premium/png-256-thumb/image-missing-1178918.png")';this.onerror='';" />
+                    <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://static.wikia.nocookie.net/leagueoflegends/images/7/7f/Molediver_Astronaut_Tier_3.png")';this.onerror='';" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
