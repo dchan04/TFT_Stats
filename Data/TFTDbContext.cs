@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TFT_Stats.Models;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using TFT_Stats.Models.ViewModel;
 
 namespace TFT_Stats.Data
 {
-    public class TFTDbContext: DbContext
+    public class TFTDbContext : DbContext
     {
         protected readonly IConfiguration Configuration;
         public TFTDbContext(DbContextOptions<TFTDbContext> options, IConfiguration configuration) : base(options)
@@ -27,6 +26,6 @@ namespace TFT_Stats.Data
 
         public DbSet<Companion> Companions { get; set; }
 
-        public DbSet<TFT_Stats.Models.ViewModel.CompanionVM> CompanionViewModel { get; set; }
+        public DbSet<CompanionVM> CompanionViewModel { get; set; }
     }
 }

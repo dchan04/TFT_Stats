@@ -60,6 +60,8 @@ namespace TFT_Stats
             //var firstJob = backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestRiotApi());
             //backgroundJobClient.ContinueJobWith(firstJob, () => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo());
 
+            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().UpdateCompanionVmDb());
+
             /*recurringJobManager.AddOrUpdate("Run every minute", 
                 () => Console.WriteLine("Hello Reccuring Job!"),
                 Cron.Hourly

@@ -10,6 +10,7 @@ using TFT_Stats.Data;
 using TFT_Stats.Models;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using TFT_Stats.Models.ViewModel;
 
 namespace TFT_Stats.Services
 {
@@ -43,6 +44,7 @@ namespace TFT_Stats.Services
                 string speciesName = (string)iconLocation["speciesName"];
                 int level = (int)iconLocation["level"];
 
+                //Create URL link to the companion
                 string[] splitPath = imgLocation.Split("/");
                 string pngName = splitPath[splitPath.Length - 1].ToLower();
                 string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/" + pngName;
@@ -57,6 +59,126 @@ namespace TFT_Stats.Services
                 //Console.WriteLine($"image file name: {path} - Name:{companionName} -- species: {speciesName} -- level: {level}");
             }
             _context.SaveChanges();
+        }
+        public void GetApiData()
+        {
+            var riotApi = RiotApi.NewInstance("RGAPI-e8e4c727-7723-4496-ad7a-c1a900043266");
+            var tier = "DIAMOND";
+            var division = "I";
+            var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);
+
+            List<String> summonerIdList = new();
+
+            foreach (var item in entry)
+            {
+                //Console.WriteLine($"SummonerId: {item.SummonerId}");
+                summonerIdList.Add(item.SummonerId.ToString());
+            }
+
+
+            for (int i = 0; i < 15; i++)
+            {
+                var puuid = riotApi.TftSummonerV1.GetBySummonerId(Region.NA, summonerIdList[i]);
+
+                //Get 20 recent matches 
+                var matches = riotApi.TftMatchV1.GetMatchIdsByPUUID(Region.Americas, puuid.Puuid);
+                foreach (var matchId in matches)
+                {
+                    Match matchExist = _context.Matches.FirstOrDefault(m => m.RiotMatchID == matchId);
+                    if (matchExist == null)
+                    {
+                        Console.WriteLine("NEW MATCH FOUND!");
+                        Match newMatch = new()
+                        {
+                            RiotMatchID = matchId
+                        };
+                        //Add new match to database
+                        _context.Matches.Add(newMatch);
+                        Console.WriteLine($"Match added - {matchId}");
+
+                        //Retrieve match information from Riot API
+                        var match = riotApi.TftMatchV1.GetMatch(Region.Americas, matchId);
+                        foreach (var participant in match.Info.Participants)
+                        {
+                            Companion newCompanion = new Companion() { RiotCompanionID = participant.Companion.ContentID, SkinID = participant.Companion.SkinID };
+                            _context.Companions.Add(newCompanion);
+                            Console.WriteLine("Companion Added!");
+                        }
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        //Console.WriteLine("DUPLICATE *FOUND*");
+                        _context.Entry(matchExist).State = EntityState.Modified;
+                    }
+                }
+            }
+            //_context.SaveChanges();
+            Console.WriteLine("Done...");
+        }
+
+        public void UpdateCompanionVmDb()
+        {
+            var ListNames = _context.Companions
+                .Select(c => c.Name)
+                .Distinct()
+                .ToList();
+            foreach (var name in ListNames)
+            {
+                CompanionVM CompanionObj = _context.CompanionViewModel.FirstOrDefault(c => c.Name == name);
+                if (CompanionObj == null)
+                {
+                    //If new unique companion has yet to be found
+                    CompanionVM newVM = new();
+
+                    //Count 
+                    var count = _context.Companions.Count(c => c.Name == name);
+
+                    //List of levels
+                    var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
+                    var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
+                    var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
+
+                    //Species name
+                    var cSpecies = _context.Companions
+                        .Where(_c => _c.Name == name)
+                        .Select(c => new
+                        {
+                            species = c.Species,
+                            imgPath = c.ImgPath,
+                        })
+                        .FirstOrDefault();
+
+                    //Create VM Object
+                    newVM.Name = name;
+                    newVM.Count = count;
+                    newVM.Level1 = lvl1Count;
+                    newVM.Level2 = lvl2Count;
+                    newVM.Level3 = lvl3Count;
+                    newVM.Species = cSpecies.species;
+                    newVM.ImgUrl = cSpecies.imgPath;
+                    _context.CompanionViewModel.Add(newVM);
+                }
+                else
+                {
+                    //If Companion has already been added to the database
+                    //Count 
+                    var count = _context.Companions.Count(c => c.Name == name);
+
+                    //List of levels
+                    var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
+                    var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
+                    var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
+
+                    //Update count
+                    CompanionObj.Count = count;
+                    CompanionObj.Level1 = lvl1Count;
+                    CompanionObj.Level2 = lvl2Count;
+                    CompanionObj.Level3 = lvl3Count;
+                    _context.CompanionViewModel.Update(CompanionObj);
+                }
+                _context.SaveChanges();
+            }
         }
 
         /****************************** Test Functions ******************************/
@@ -102,23 +224,23 @@ namespace TFT_Stats.Services
             }
         }
         */
-        public void UpdateDB()
-        {
-            Companion newCompanion = new() { RiotCompanionID = "Test", SkinID = 11 };
-            Companion testCompanion = _context.Companions.FirstOrDefault(c => c.RiotCompanionID == newCompanion.RiotCompanionID);
-            if (testCompanion == null)
-            {
-                Console.WriteLine("DUPLICATE NOT FOUND!");
-            }
-            else
-            {
-                Console.WriteLine("DUPLICATE *FOUND*");
-                _context.Entry(testCompanion).State = EntityState.Modified;
-            }
-            //_context.Companions.Add(newCompanion);
-            //var order = _context.Companions.Where(_context.Companions.Where(_context.Companions == newCompanion).FirstorDefault());
-            _context.SaveChanges();
-        }
+        //public void UpdateDB()
+        //{
+        //    Companion newCompanion = new() { RiotCompanionID = "Test", SkinID = 11 };
+        //    Companion testCompanion = _context.Companions.FirstOrDefault(c => c.RiotCompanionID == newCompanion.RiotCompanionID);
+        //    if (testCompanion == null)
+        //    {
+        //        Console.WriteLine("DUPLICATE NOT FOUND!");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("DUPLICATE *FOUND*");
+        //        _context.Entry(testCompanion).State = EntityState.Modified;
+        //    }
+        //    //_context.Companions.Add(newCompanion);
+        //    //var order = _context.Companions.Where(_context.Companions.Where(_context.Companions == newCompanion).FirstorDefault());
+        //    _context.SaveChanges();
+        //}
 
         //public void TestCompanionJson()
         //{
@@ -135,68 +257,6 @@ namespace TFT_Stats.Services
         //    Console.WriteLine($"image file name: {path}");
         //}
 
-        public void TestRiotApi()
-        {
-            var riotApi = RiotApi.NewInstance("RGAPI-e8e4c727-7723-4496-ad7a-c1a900043266");
-            var tier = "DIAMOND";
-            var division = "I";
-            var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);
 
-            List<String> summonerIdList = new();
-            //List<String> puuidList = new();
-            //List<String> matchList = new();
-            //Console.WriteLine("Working on 1st function...");
-            foreach (var item in entry)
-            {
-                //Console.WriteLine($"SummonerId: {item.SummonerId}");
-                summonerIdList.Add(item.SummonerId.ToString());
-            }
-
-            //for each summoner in summoner list
-            //foreach (var id in summonerIdList)
-            for (int i = 0; i < 15; i++)
-            {
-                var puuid = riotApi.TftSummonerV1.GetBySummonerId(Region.NA, summonerIdList[i]);
-
-                //Get 20 recent matches 
-                var matches = riotApi.TftMatchV1.GetMatchIdsByPUUID(Region.Americas, puuid.Puuid);
-                foreach (var matchId in matches)
-                {
-                    Match matchExist = _context.Matches.FirstOrDefault(m => m.RiotMatchID == matchId);
-                    if (matchExist == null)
-                    {
-                        Console.WriteLine("NEW MATCH FOUND!");
-                        Match newMatch = new()
-                        {
-                            RiotMatchID = matchId
-                        };
-                        //Add new match to database
-                        _context.Matches.Add(newMatch);
-                        Console.WriteLine($"Match added - {matchId}");
-
-                        //Retrieve match information from Riot API
-                        var match = riotApi.TftMatchV1.GetMatch(Region.Americas, matchId);
-                        foreach (var participant in match.Info.Participants)
-                        {
-                            Companion newCompanion = new Companion() { RiotCompanionID = participant.Companion.ContentID, SkinID = participant.Companion.SkinID };
-                            //Participant participant1 = new Participant() {Companion = newCompanion, MatchID = int.Parse(matchId)};
-                            _context.Companions.Add(newCompanion);
-                            //Console.WriteLine($"{participant.Companion}");
-                            Console.WriteLine("Companion Added!");
-                        }
-                        _context.SaveChanges();
-                    }
-                    else
-                    {
-                        //Console.WriteLine("DUPLICATE *FOUND*");
-                        _context.Entry(matchExist).State = EntityState.Modified;
-                    }
-                }
-                //Summoners summoner = new Summoners() { RiotSummonerId = puuid.Id, Puuid = puuid.Puuid, Matches = null };
-                //_context.Summoners.Add(summoner);
-            }
-            //_context.SaveChanges();
-            Console.WriteLine("Done...");
-        }
     }
 }

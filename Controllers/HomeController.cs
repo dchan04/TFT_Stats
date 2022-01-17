@@ -33,50 +33,7 @@ namespace TFT_Stats.Controllers
 
         public IActionResult CompanionView()
         {
-            //var companions = _context.Companions.ToList();
-            //Console.WriteLine($"Count: {companions.Count}");
-            List<CompanionVM> companionVMList = new();
-
-            //Get all unique companion names
-            var ListNames = _context.Companions
-                .Select(c => c.Name)
-                .Distinct()
-                .ToList();
-            //For each unique companion, get related data
-            foreach (var name in ListNames)
-            {
-                CompanionVM objVM = new();
-
-                //Count 
-                var count = _context.Companions.Count(c => c.Name == name);
-
-                //List of levels
-                var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
-                var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
-                var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
-
-                //Species name
-                var cSpecies = _context.Companions
-                    .Where(_c => _c.Name == name)
-                    .Select(c => new
-                    {
-                        species = c.Species,
-                        imgPath = c.ImgPath,
-                    })
-                    .FirstOrDefault();
-
-                //Create VM Object
-                objVM.Name = name;
-                objVM.Count = count;
-                objVM.Level1 = lvl1Count;
-                objVM.Level2 = lvl2Count;
-                objVM.Level3 = lvl3Count;
-                objVM.Species = cSpecies.species;
-                objVM.ImgUrl = cSpecies.imgPath;
-                companionVMList.Add(objVM);
-            }
-            var OrderedList = companionVMList.OrderByDescending(c => c.Count).ToList();
-            return View(OrderedList);
+            return View(_context.CompanionViewModel.ToList().OrderByDescending(c => c.Count));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
