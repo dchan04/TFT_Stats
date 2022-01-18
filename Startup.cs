@@ -52,20 +52,20 @@ namespace TFT_Stats
 
             app.UseHangfireDashboard();
 
-            //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello Hangfire Job!"));
-            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestCompanionJson());
-            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo());
-            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().DbUsage());
+            recurringJobManager.AddOrUpdate("Get RiotAPI Data",
+                () => serviceProvider.GetService<ITFT_DataService>().GetApiData(),
+                "0 0 12 ? * SAT"
+                );
 
-            //var firstJob = backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().TestRiotApi());
-            //backgroundJobClient.ContinueJobWith(firstJob, () => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo());
+            recurringJobManager.AddOrUpdate("Get Additional information on Companions",
+                () => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo(),
+                "0 30 12 ? * SUN"
+                );
 
-            //backgroundJobClient.Enqueue(() => serviceProvider.GetService<ITFT_DataService>().UpdateCompanionVmDb());
-
-            /*recurringJobManager.AddOrUpdate("Run every minute", 
-                () => Console.WriteLine("Hello Reccuring Job!"),
-                Cron.Hourly
-                );*/
+            recurringJobManager.AddOrUpdate("Update CompanionVM Database",
+                () => serviceProvider.GetService<ITFT_DataService>().UpdateCompanionVmDb(),
+                "0 0 12 ? * SUN"
+                );
 
             app.UseRouting();
 

@@ -5,12 +5,8 @@ namespace TFT_Stats.Services
 {
     public interface ITFT_DataService
     {
-
         void GetAdditionalCompanionInfo();
-
         void GetApiData();
-
         void UpdateCompanionVmDb();
-
     }
 }

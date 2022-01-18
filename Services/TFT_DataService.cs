@@ -16,7 +16,7 @@ namespace TFT_Stats.Services
 {
     public class TFT_DataService : ITFT_DataService
     {
-        private TFTDbContext _context;
+        private readonly TFTDbContext _context;
         protected readonly IConfiguration Configuration;
 
         public TFT_DataService(TFTDbContext context)
@@ -27,7 +27,7 @@ namespace TFT_Stats.Services
         /****************************** Finished Functions ******************************/
         public void GetAdditionalCompanionInfo()
         {
-            var companions = _context.Companions.ToList();
+            var companions = _context.Companions.Where(c => c.ImgPath == null).ToList();
             Console.WriteLine($"{companions.Count} companions");
             var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
             dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
@@ -62,7 +62,7 @@ namespace TFT_Stats.Services
         }
         public void GetApiData()
         {
-            var riotApi = RiotApi.NewInstance("RGAPI-e8e4c727-7723-4496-ad7a-c1a900043266");
+            var riotApi = RiotApi.NewInstance("RGAPI-dac199c6-48e0-4cbf-9700-dd687edff005");
             var tier = "DIAMOND";
             var division = "I";
             var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);
@@ -75,10 +75,10 @@ namespace TFT_Stats.Services
                 summonerIdList.Add(item.SummonerId.ToString());
             }
 
-
-            for (int i = 0; i < 15; i++)
+            //for (int i = 0; i < 15; i++)
+            foreach (var item in summonerIdList)
             {
-                var puuid = riotApi.TftSummonerV1.GetBySummonerId(Region.NA, summonerIdList[i]);
+                var puuid = riotApi.TftSummonerV1.GetBySummonerId(Region.NA, item);
 
                 //Get 20 recent matches 
                 var matches = riotApi.TftMatchV1.GetMatchIdsByPUUID(Region.Americas, puuid.Puuid);
@@ -180,83 +180,5 @@ namespace TFT_Stats.Services
                 _context.SaveChanges();
             }
         }
-
-        /****************************** Test Functions ******************************/
-        /*
-        public void DbUsage()
-        {
-            //Get all unique companion names
-            var ListNames = _context.Companions
-                .Select(c => c.Name)
-                .Distinct()
-                .ToList();
-
-
-            //For each unique companion, get related data
-            foreach (var name in ListNames)
-            {
-                //Get a list of companion entities using each unique name
-                var CompanionList = _context.Companions
-                    .Where(c => c.Name == name)
-                    .OrderBy(c => c.Level)
-                    .ToList();
-
-                //Count 
-                var count = _context.Companions.Count(c => c.Name == name);
-                //List of levels
-                var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
-                var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
-                var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
-
-                //Species name
-                var cSpecies = _context.Companions
-                    .Where(_c => _c.Name == name)
-                    .Select(c => new
-                    {
-                        species = c.Species,
-                        imgPath = c.ImgPath,
-                    })
-                    .FirstOrDefault();
-
-                Console.WriteLine($"{name} - {count} - {cSpecies.species} - {cSpecies.imgPath}");
-                Console.WriteLine($"Levels: {lvl1Count} - {lvl2Count} - {lvl3Count}");
-                Console.WriteLine("*************************************************************");
-            }
-        }
-        */
-        //public void UpdateDB()
-        //{
-        //    Companion newCompanion = new() { RiotCompanionID = "Test", SkinID = 11 };
-        //    Companion testCompanion = _context.Companions.FirstOrDefault(c => c.RiotCompanionID == newCompanion.RiotCompanionID);
-        //    if (testCompanion == null)
-        //    {
-        //        Console.WriteLine("DUPLICATE NOT FOUND!");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("DUPLICATE *FOUND*");
-        //        _context.Entry(testCompanion).State = EntityState.Modified;
-        //    }
-        //    //_context.Companions.Add(newCompanion);
-        //    //var order = _context.Companions.Where(_context.Companions.Where(_context.Companions == newCompanion).FirstorDefault());
-        //    _context.SaveChanges();
-        //}
-
-        //public void TestCompanionJson()
-        //{
-        //    var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
-        //    dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
-        //    string token = "$.[?(@.contentId == " + "'0e251d36-d86e-4c58-9b7f-bcee2376a408'" + ")]";
-        //    JToken iconLocation = jObj.SelectToken(token);
-        //    //Console.WriteLine($"{iconLocation["loadoutsIcon"]}");
-        //    string imgLocation = (string)iconLocation["loadoutsIcon"];
-        //    Console.WriteLine(imgLocation);
-        //    string[] splitPath = imgLocation.Split("/");
-        //    string pngName = splitPath[splitPath.Length - 1].ToLower();
-        //    string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/" + pngName;
-        //    Console.WriteLine($"image file name: {path}");
-        //}
-
-
     }
 }
