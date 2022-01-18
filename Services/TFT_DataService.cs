@@ -24,11 +24,10 @@ namespace TFT_Stats.Services
             _context = context;
         }
 
-        /****************************** Finished Functions ******************************/
         public void GetAdditionalCompanionInfo()
         {
+            Console.WriteLine("GetAdditionalCompanionInfo() has Started...");
             var companions = _context.Companions.Where(c => c.ImgPath == null).ToList();
-            Console.WriteLine($"{companions.Count} companions");
             var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
             dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
             foreach (var companion in companions)
@@ -46,7 +45,7 @@ namespace TFT_Stats.Services
 
                 //Create URL link to the companion
                 string[] splitPath = imgLocation.Split("/");
-                string pngName = splitPath[splitPath.Length - 1].ToLower();
+                string pngName = splitPath[^1].ToLower();
                 string path = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/" + pngName;
 
                 //Update Companion values in database
@@ -55,13 +54,15 @@ namespace TFT_Stats.Services
                 updateCompanion.Species = speciesName;
                 updateCompanion.Level = level;
 
-                Console.WriteLine("Updated!");
+                //Console.WriteLine("Updated!");
                 //Console.WriteLine($"image file name: {path} - Name:{companionName} -- species: {speciesName} -- level: {level}");
             }
+            Console.WriteLine("Worker Function GetAdditionalCompanionInfo() has Finished!");
             _context.SaveChanges();
         }
         public void GetApiData()
         {
+            Console.WriteLine("GetApiData() function has Started...");
             var riotApi = RiotApi.NewInstance("RGAPI-dac199c6-48e0-4cbf-9700-dd687edff005");
             var tier = "DIAMOND";
             var division = "I";
@@ -85,6 +86,7 @@ namespace TFT_Stats.Services
                 foreach (var matchId in matches)
                 {
                     Match matchExist = _context.Matches.FirstOrDefault(m => m.RiotMatchID == matchId);
+                    //If Duplicate is not found in the database
                     if (matchExist == null)
                     {
                         Console.WriteLine("NEW MATCH FOUND!");
@@ -100,7 +102,7 @@ namespace TFT_Stats.Services
                         var match = riotApi.TftMatchV1.GetMatch(Region.Americas, matchId);
                         foreach (var participant in match.Info.Participants)
                         {
-                            Companion newCompanion = new Companion() { RiotCompanionID = participant.Companion.ContentID, SkinID = participant.Companion.SkinID };
+                            Companion newCompanion = new() { RiotCompanionID = participant.Companion.ContentID, SkinID = participant.Companion.SkinID };
                             _context.Companions.Add(newCompanion);
                             Console.WriteLine("Companion Added!");
                         }
@@ -108,17 +110,17 @@ namespace TFT_Stats.Services
                     }
                     else
                     {
-                        //Console.WriteLine("DUPLICATE *FOUND*");
+                        //DUPLICATE FOUND
                         _context.Entry(matchExist).State = EntityState.Modified;
                     }
                 }
             }
-            //_context.SaveChanges();
-            Console.WriteLine("Done...");
+            Console.WriteLine("Worker Function GetApiData() has Finished!");
         }
 
         public void UpdateCompanionVmDb()
         {
+            Console.WriteLine("UpdateCompanionVmDb() has Started...");
             var ListNames = _context.Companions
                 .Select(c => c.Name)
                 .Distinct()
@@ -179,6 +181,7 @@ namespace TFT_Stats.Services
                 }
                 _context.SaveChanges();
             }
+            Console.WriteLine("Worker Function UpdateCompanionVmDb() has Finished!");
         }
     }
 }

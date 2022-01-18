@@ -18,11 +18,9 @@ namespace TFT_Stats.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private TFTDbContext _context;
-        public HomeController(ILogger<HomeController> logger, TFTDbContext context)
+        private readonly TFTDbContext _context;
+        public HomeController(TFTDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
