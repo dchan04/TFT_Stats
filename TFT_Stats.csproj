@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>f8f7088b-21a2-4709-9935-9e01c21f76a7</UserSecretsId>
     <OutputType>WinExe</OutputType>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

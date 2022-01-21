@@ -26,7 +26,7 @@ namespace TFT_Stats.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Companions.ToList());
+            return View();
         }
 
         public IActionResult CompanionView()

@@ -7,6 +7,7 @@ using System;
 using TFT_Stats.Services;
 using Hangfire;
 using TFT_Stats.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TFT_Stats
 {
@@ -23,13 +24,17 @@ namespace TFT_Stats
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHangfire(x => x.UseSqlServerStorage(Configuration["ConnectionStrings:TFT_Database"]));
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("TFT_Database")));
             services.AddHangfireServer();
 
             services.AddScoped<ITFT_DataService, TFT_DataService>();
 
             //DbContext configuration
-            services.AddDbContext<TFTDbContext>();
+            services.AddDbContext<TFTDbContext>(
+                optionsBuilder =>
+                {
+                    optionsBuilder.UseSqlServer(Configuration.GetConnectionString("TFT_Database"));
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,17 +12,20 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using TFT_Stats.Models.ViewModel;
 
+
 namespace TFT_Stats.Services
 {
     public class TFT_DataService : ITFT_DataService
     {
         private readonly TFTDbContext _context;
-        protected readonly IConfiguration Configuration;
 
-        public TFT_DataService(TFTDbContext context)
+        public TFT_DataService(TFTDbContext context, IConfiguration configuration)
         {
+            Configuration = configuration;
             _context = context;
         }
+
+        private IConfiguration Configuration { get; }
 
         public void GetAdditionalCompanionInfo()
         {
@@ -53,9 +56,6 @@ namespace TFT_Stats.Services
                 updateCompanion.Name = companionName;
                 updateCompanion.Species = speciesName;
                 updateCompanion.Level = level;
-
-                //Console.WriteLine("Updated!");
-                //Console.WriteLine($"image file name: {path} - Name:{companionName} -- species: {speciesName} -- level: {level}");
             }
             Console.WriteLine("Worker Function GetAdditionalCompanionInfo() has Finished!");
             _context.SaveChanges();
@@ -63,7 +63,7 @@ namespace TFT_Stats.Services
         public void GetApiData()
         {
             Console.WriteLine("GetApiData() function has Started...");
-            var riotApi = RiotApi.NewInstance("RGAPI-dac199c6-48e0-4cbf-9700-dd687edff005");
+            var riotApi = RiotApi.NewInstance(Configuration["ConnectionStrings:ApiKey"]);
             var tier = "DIAMOND";
             var division = "I";
             var entry = riotApi.TftLeagueV1.GetLeagueEntries(Region.NA, tier, division);
