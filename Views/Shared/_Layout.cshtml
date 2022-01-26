@@ -1,4 +1,10 @@
 ﻿<!DOCTYPE html>
+<style>
+    html, div, header, body, main, footer, .bg-customblack {
+        background-color: #121212;
+    }
+
+</style>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,9 +15,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-customblack border-bottom border-dark box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,10 +25,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CompanionView">Companions</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="CompanionView">Companions</a>
                         </li>
                     </ul>
                 </div>
@@ -35,7 +41,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted border-dark">
         <div class="container">
             &copy; 2021 - TFT_Stats
         </div>

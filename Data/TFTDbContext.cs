@@ -15,7 +15,7 @@ namespace TFT_Stats.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            //options.UseSqlServer(Configuration.GetConnectionString("TFT_Database"));
+
         }
 
         public DbSet<Summoners> Summoners { get; set; }

@@ -1,9 +1,48 @@
 ﻿@model IEnumerable<TFT_Stats.Models.ViewModel.CompanionVM>
 <style>
     img {
-        width: 200px;
+        width: 75px;
         height: auto;
     }
+
+    html, div, header, body, main, footer, th {
+        background-color: #121212;
+    }
+
+    table, tr, th, thead, tbody {
+        color: white;
+    }
+
+    thead {
+        border: 2.5px solid #0b0b0b;
+    }
+
+    tr {
+        border-bottom-style: double;
+        border-width: 1px;
+        border-color: black;
+        background-color: #1e1e1e;
+    }
+
+        tr:nth-child(even) {
+            background-color: #2c2c2c;
+        }
+
+    a.my-class {
+        color: #333333
+    }
+
+        a.my-class:active {
+            color: #666666
+        }
+
+        a.my-class:link {
+            color: #999999
+        }
+
+        a.my-class:visited {
+            color: #CCCCCC
+        }
 </style>
 <table class="table">
     <thead>
@@ -12,10 +51,10 @@
 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.NameSortParm}, new { @class = "my-class" })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Species)
+                @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.Species}, new { @class = "my-class" })
             </th>
             <th>
                 Level 1
@@ -27,7 +66,7 @@
                 Level 3
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Count)
+                @Html.ActionLink("Count", "CompanionView", new {sortOrder = ViewBag.Count}, new { @class = "my-class" })
             </th>
             <th></th>
         </tr>

@@ -1,18 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using MingweiSamuel.Camille;
-using MingweiSamuel.Camille.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using TFT_Stats.Data;
 using TFT_Stats.Models;
-using TFT_Stats.Models.ViewModel;
 
 namespace TFT_Stats.Controllers
 {
@@ -29,9 +20,20 @@ namespace TFT_Stats.Controllers
             return View();
         }
 
-        public IActionResult CompanionView()
+        public IActionResult CompanionView(string sortOrder)
         {
-            return View(_context.CompanionViewModel.ToList().OrderByDescending(c => c.Count));
+            ViewBag.NameSortParm = sortOrder == "name_ascen" ? "name_desc" : "name_ascen";
+            ViewBag.Species = sortOrder == "species_ascen" ? "species_desc" : "species_ascen";
+            ViewBag.Count = String.IsNullOrEmpty(sortOrder) ? "count_ascen" : "";
+            return sortOrder switch
+            {
+                "name_desc" => View(_context.CompanionViewModel.ToList().OrderByDescending(c => c.Name)),
+                "species_desc" => View(_context.CompanionViewModel.ToList().OrderByDescending(c => c.Species)),
+                "name_ascen" => View(_context.CompanionViewModel.ToList().OrderBy(c => c.Name)),
+                "species_ascen" => View(_context.CompanionViewModel.ToList().OrderBy(c => c.Species)),
+                "count_ascen" => View(_context.CompanionViewModel.ToList().OrderBy(c => c.Count)),
+                _ => View(_context.CompanionViewModel.ToList().OrderByDescending(c => c.Count)),
+            };
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
