@@ -74,30 +74,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://static.wikia.nocookie.net/leagueoflegends/images/7/7f/Molediver_Astronaut_Tier_3.png")';this.onerror='';" />
-                </td>
-                <td>
+                <tr>
+                    <td>
+                        <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://static.wikia.nocookie.net/leagueoflegends/images/7/7f/Molediver_Astronaut_Tier_3.png")';this.onerror='';" />
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Species)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Level1)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Level2)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Level3)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Count)
-                </td>
-                <td>
-            </tr>
+                    </td>
+                    <td>
+                </tr>
         }
     </tbody>
 </table>

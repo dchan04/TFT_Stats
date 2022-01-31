@@ -17,6 +17,10 @@ namespace TFT_Stats.Controllers
 
         public IActionResult Index()
         {
+            var top3Companions = _context.CompanionViewModel.OrderByDescending(c => c.Count).Take(3).ToList();
+            ViewBag.First = top3Companions[0].ImgUrl;
+            ViewBag.Second = top3Companions[1].ImgUrl;
+            ViewBag.Third = top3Companions[2].ImgUrl;
             return View();
         }
 

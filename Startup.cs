@@ -64,12 +64,12 @@ namespace TFT_Stats
 
             recurringJobManager.AddOrUpdate("Get Additional information on Companions",
                 () => serviceProvider.GetService<ITFT_DataService>().GetAdditionalCompanionInfo(),
-                "0 30 12 ? * SUN"
+                "0 30 12 ? * MON"
                 );
 
             recurringJobManager.AddOrUpdate("Update CompanionVM Database",
                 () => serviceProvider.GetService<ITFT_DataService>().UpdateCompanionVmDb(),
-                "0 0 12 ? * SUN"
+                "0 0 13 ? * MON"
                 );
 
             app.UseRouting();

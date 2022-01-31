@@ -1,20 +1,157 @@
-﻿@{
+﻿@model IEnumerable<TFT_Stats.Models.ViewModel.CompanionVM>
+@{
     ViewData["Title"] = "Home Page";
 
 }
 
 <style>
-    h4 {
-        font-size: 2em;
-    }
 
     html, div, header, body, main, footer {
         background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+        div.top3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+        }
+
+            div.top3 p {
+                margin-top: 0;
+                color: #000000;
+                font-size: 50px;
+            }
+
+                div.top3 p span.score {
+                    font-weight: bold;
+                }
+
+    /* CSS */
+    .button-29 {
+        align-items: center;
+        appearance: none;
+        background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+        border: 0;
+        border-radius: 6px;
+        box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: "JetBrains Mono",monospace;
+        height: 48px;
+        justify-content: center;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 16px;
+        padding-right: 16px;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transition: box-shadow .15s,transform .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow,transform;
+        font-size: 18px;
+    }
+
+    a.action-button {
+        font-family: Arial, sans-serif;
+        color: #FFFFFF;
+    }
+
+    .button-29:focus {
+        box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    }
+
+    .button-29:hover {
+        box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+        transform: translateY(-2px);
+    }
+
+    .button-29:active {
+        box-shadow: #3c4fe0 0 3px 7px inset;
+        transform: translateY(2px);
+    }
+
+    ol, li { /* CSS reset: make lists not work like lists */
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    ol {
+        display: flex;
+    }
+
+    li {
+        display: inline-block;
+    }
+
+        li.silver {
+            order: -1;
+        }
+
+    .silver, .bronze {
+        transform: scale(0.75);
+    }
+
+    li img {
+        display: block;
+    }
+
+    li span.score {
+        position: relative;
+        top: -10px;
+        height: 75px;
+        width: 75px;
+        font-size: 50px;
+        -webkit-text-stroke: 2px black;
+        -webkit-text-fill-color: white;
+        color: white;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    li.gold .score {
+        background-image: url("https://wallpapercave.com/wp/wp7316304.jpg");
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
+
+    li.silver .score {
+        background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/25/40/18/78/700_FO25401878_f08c01ddbb21edf9bb9c7a57a756f4ca.jpg,700,497,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,447,jpg)/stickers-brushed-silver-metallic-background.jpg.jpg");
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
+
+    li.bronze .score {
+        background-image: url("https://i.pinimg.com/originals/56/3a/79/563a7933c109f27c54525afef4c1ba5e.jpg");
+        background-repeat: no-repeat;
+        background-size: auto;
     }
 </style>
 
 <div class="text-center">
-    <h1 class="display-3 text-light">TFT_Stats</h1>
-    <h1 class="display-4 text-light">Statistics on The Most Popular Little Legends</h1>
-    <img src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/loadouts/companions/tooltip_akalidragon_beatmaker_tier2.png" alt="Trulli" width="500" height="333">
+    <h1 class="display-4"><b>Top 3 Little Legends</b></h1>
+</div>
+
+<div class="top3 text-center">
+    <ol>
+        <li class="gold"><img alt="first" src=@ViewBag.First> <span class="score">1</span></li>
+        <li class="silver"><img alt="second" src=@ViewBag.Second> <span class="score">2</span></li>
+        <li class="bronze"><img alt="third" src=@ViewBag.Third> <span class="score">3</span></li>
+    </ol>
+</div>
+
+<div class="text-center">
+    <button class="button-29">
+        @Html.ActionLink("View All Little Legends", "CompanionView", new {sortOrder = ViewBag.Count}, new {@class = "action-button"})
+    </button>
 </div>
