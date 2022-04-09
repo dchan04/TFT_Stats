@@ -1,9 +1,37 @@
 ﻿<!DOCTYPE html>
 <style>
-    html, div, header, body, main, footer, .bg-customblack {
-        background-color: #121212;
+    nav {
+        box-shadow: inherit;
+        border-style: hidden;
+        background-color: #0093E9;
+        background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
     }
 
+    body {
+        position: relative;
+        height: 100%;
+        min-height: 1520px;
+        width: 100%;
+        min-width: 1080px;
+        background-color: #08AEEA;
+        background-image: linear-gradient(90deg, #08AEEA 0%, #2AF598 100%);
+    }
+
+    footer {
+        bottom-border-
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #0093E9;
+        background-image: linear-gradient(0deg, #0093E9 0%, #80D0C7 100%);
+    }
+
+    .content-wrap {
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 24px;
+        text-decoration: none;
+    }
 </style>
 <html lang="en">
 <head>
@@ -15,7 +43,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-customblack border-bottom border-dark box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-customblack box-shadow mb-4">
             <div class="container">
                 <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -41,8 +69,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted border-dark">
-        <div class="container">
+    <footer class="footer text-muted border-dark box-shadow">
+        <div class="container content-wrap">
             &copy; 2021 - TFT_Stats
         </div>
     </footer>

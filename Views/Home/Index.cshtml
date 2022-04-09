@@ -3,107 +3,153 @@
     ViewData["Title"] = "Home Page";
 
 }
+<!DOCTYPE html>
 
 <style>
 
-    html, div, header, body, main, footer {
-        background-color: #121212;
+    body, footer {
         color: white;
         font-family: Arial, sans-serif;
     }
 
-        div.top3 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: auto;
+    div.top3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+    }
+
+        div.top3 p {
+            margin-top: 0;
+            color: #FFFFFF;
+            font-size: 50px;
         }
 
-            div.top3 p {
-                margin-top: 0;
-                color: #000000;
-                font-size: 50px;
+            div.top3 p span.score {
+                font-weight: bold;
             }
 
-                div.top3 p span.score {
-                    font-weight: bold;
-                }
 
-    /* CSS */
-    .button-29 {
-        align-items: center;
-        appearance: none;
-        background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
-        border: 0;
-        border-radius: 6px;
-        box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
-        box-sizing: border-box;
-        color: #fff;
-        cursor: pointer;
-        display: inline-flex;
-        font-family: "JetBrains Mono",monospace;
-        height: 48px;
-        justify-content: center;
-        line-height: 1;
-        list-style: none;
-        overflow: hidden;
-        padding-left: 16px;
-        padding-right: 16px;
-        position: relative;
-        text-align: left;
-        text-decoration: none;
-        transition: box-shadow .15s,transform .15s;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        white-space: nowrap;
-        will-change: box-shadow,transform;
-        font-size: 18px;
+    .title {
+        margin-left: 25%;
+        margin-bottom: 2rem;
+        max-width: 50%;
+        width: auto;
+        box-shadow: 0.5rem 0.5rem #ffffff, -0.5rem -0.5rem #ffffff;
     }
 
-    a.action-button {
-        font-family: Arial, sans-serif;
-        color: #FFFFFF;
+    .top3-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
 
-    .button-29:focus {
-        box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    /* Button */
+    .btn {
+        background: #85FFBD;
+        background-image: -webkit-linear-gradient(top, #85FFBD, #FFFB7D);
+        background-image: -moz-linear-gradient(top, #85FFBD, #FFFB7D);
+        background-image: -o-linear-gradient(top, #85FFBD, #FFFB7D);
+        background-image: linear-gradient(to bottom, #85FFBD, #FFFB7D);
+        -webkit-border-radius: 28;
+        -moz-border-radius: 28;
+        border-radius: 28px;
+        text-shadow: 1px 1px 0px #000000;
+        -webkit-box-shadow: 0px 0px 6px #00ffff;
+        -moz-box-shadow: 0px 0px 6px #00ffff;
+        box-shadow: 0px 0px 6px #00ffff;
     }
 
-    .button-29:hover {
-        box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
-        transform: translateY(-2px);
+        .btn:hover {
+            background: #FFFB7D;
+            background-image: -webkit-linear-gradient(top, #FFFB7D, #85FFBD);
+            background-image: -moz-linear-gradient(top, #FFFB7D, #85FFBD);
+            background-image: -o-linear-gradient(top, #FFFB7D, #85FFBD);
+            background-image: linear-gradient(to bottom, #FFFB7D, #85FFBD);
+            text-decoration: none;
+        }
+
+        .btn a {
+            font-family: Arial;
+            color: #ffffff;
+            font-size: 26px;
+            padding: 13px;
+            text-decoration: none;
+        }
+
+    .tilesWrap {
+        padding: 0;
+        margin: 50px auto;
     }
 
-    .button-29:active {
-        box-shadow: #3c4fe0 0 3px 7px inset;
-        transform: translateY(2px);
+        .tilesWrap li {
+            display: inline-block;
+            width: 33%;
+            min-width: 200px;
+            max-width: 330px;
+            min-height: 200px;
+            max-height: 330px;
+            padding: 70px 40px 60px;
+            position: relative;
+            vertical-align: top;
+            margin: 10px;
+            font-family: 'helvetica', san-serif;
+            text-align: left;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+        }
+
+            .tilesWrap li.gold {
+                background: linear-gradient(to bottom, #FFFFFF, #FFD700);
+                border-radius: 15px;
+            }
+
+            .tilesWrap li.silver {
+                background: linear-gradient(to bottom, #FFFFFF, #C0C0C0);
+                border-radius: 15px;
+            }
+
+            .tilesWrap li.bronze {
+                background: linear-gradient(to bottom, #FFFFFF, #CD7F32);
+                border-radius: 15px;
+            }
+
+
+    img {
+        min-height: auto;
+        max-width: 250px;
+        border-radius: 15px;
+    }
+
+    .gold img {
+        box-shadow: 0px 0px 55px 0px rgba(255,217,0,0.9);
+    }
+
+    .silver img {
+        box-shadow: 0px 0px 55px 0px rgba(192,192,192,0.9);
+    }
+
+    .bronze img {
+        box-shadow: 0px 0px 55px 0px rgba(205,127,50,0.9);
     }
 
     ol, li { /* CSS reset: make lists not work like lists */
         list-style: none;
-        margin: 0;
-        padding: 0;
     }
 
     ol {
         display: flex;
     }
 
-    li {
-        display: inline-block;
+
+    li.silver {
+        order: -1;
+        transform: scale(0.90);
     }
 
-        li.silver {
-            order: -1;
-        }
-
-    .silver, .bronze {
-        transform: scale(0.75);
-    }
-
-    li img {
-        display: block;
+    li.bronze {
+        transform: scale(0.80);
     }
 
     li span.score {
@@ -119,39 +165,26 @@
         display: inline-block;
     }
 
-    li.gold .score {
-        background-image: url("https://wallpapercave.com/wp/wp7316304.jpg");
-        background-repeat: no-repeat;
-        background-size: auto;
-    }
-
-    li.silver .score {
-        background-image: url("https://img.pixers.pics/pho_wat(s3:700/FO/25/40/18/78/700_FO25401878_f08c01ddbb21edf9bb9c7a57a756f4ca.jpg,700,497,cms:2018/10/5bd1b6b8d04b8_220x50-watermark.png,over,480,447,jpg)/stickers-brushed-silver-metallic-background.jpg.jpg");
-        background-repeat: no-repeat;
-        background-size: auto;
-    }
-
-    li.bronze .score {
-        background-image: url("https://i.pinimg.com/originals/56/3a/79/563a7933c109f27c54525afef4c1ba5e.jpg");
-        background-repeat: no-repeat;
-        background-size: auto;
-    }
 </style>
 
-<div class="text-center">
-    <h1 class="display-4"><b>Top 3 Little Legends</b></h1>
-</div>
+<body>
+    <div class="top3-container">
+        <div class="title text-center">
+            <h1 class="display-4"><b>Top 3 Little Legends</b></h1>
+        </div>
 
-<div class="top3 text-center">
-    <ol>
-        <li class="gold"><img alt="first" src=@ViewBag.First> <span class="score">1</span></li>
-        <li class="silver"><img alt="second" src=@ViewBag.Second> <span class="score">2</span></li>
-        <li class="bronze"><img alt="third" src=@ViewBag.Third> <span class="score">3</span></li>
-    </ol>
-</div>
+        <div class="top3 text-center">
+            <ol class="tilesWrap">
+                <li class="gold"><img class="cImage" alt="first" src=@ViewBag.First> <span class="score"></span></li>
+                <li class="silver"><img class="cImage" alt="second" src=@ViewBag.Second> <span class="score"></span></li>
+                <li class="bronze"><img class="cImage" alt="third" src=@ViewBag.Third> <span class="score"></span></li>
+            </ol>
+        </div>
 
-<div class="text-center">
-    <button class="button-29">
-        @Html.ActionLink("View All Little Legends", "CompanionView", new {sortOrder = ViewBag.Count}, new {@class = "action-button"})
-    </button>
-</div>
+        <div class="text-center">
+            <button class="btn">
+                @Html.ActionLink("View All Little Legends", "CompanionView", new {sortOrder = ViewBag.Count}, new {@class = "action-button"})
+            </button>
+        </div>
+    </div>
+</body>

@@ -5,10 +5,6 @@
         height: auto;
     }
 
-    html, div, header, body, main, footer, th {
-        background-color: #121212;
-    }
-
     table, tr, th, thead, tbody {
         color: white;
     }
@@ -44,60 +40,62 @@
             color: #CCCCCC
         }
 </style>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
 
-            </th>
-            <th>
-                @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.NameSortParm}, new { @class = "my-class" })
-            </th>
-            <th>
-                @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.Species}, new { @class = "my-class" })
-            </th>
-            <th>
-                Level 1
-            </th>
-            <th>
-                Level 2
-            </th>
-            <th>
-                Level 3
-            </th>
-            <th>
-                @Html.ActionLink("Count", "CompanionView", new {sortOrder = ViewBag.Count}, new { @class = "my-class" })
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+                </th>
+                <th>
+                    @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.NameSortParm}, new { @class = "my-class" })
+                </th>
+                <th>
+                    @Html.ActionLink("Companion Name", "CompanionView", new {sortOrder = ViewBag.Species}, new { @class = "my-class" })
+                </th>
+                <th>
+                    Level 1
+                </th>
+                <th>
+                    Level 2
+                </th>
+                <th>
+                    Level 3
+                </th>
+                <th>
+                    @Html.ActionLink("Count", "CompanionView", new {sortOrder = ViewBag.Count}, new { @class = "my-class" })
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
                     <td>
                         <img src="@Url.Content(item.ImgUrl)" onerror="this.src='@Url.Content("https://static.wikia.nocookie.net/leagueoflegends/images/7/7f/Molediver_Astronaut_Tier_3.png")';this.onerror='';" />
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Species)
+                        @Html.DisplayFor(modelItem => item.Species)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Level1)
+                        @Html.DisplayFor(modelItem => item.Level1)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Level2)
+                        @Html.DisplayFor(modelItem => item.Level2)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Level3)
+                        @Html.DisplayFor(modelItem => item.Level3)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.Count)
+                        @Html.DisplayFor(modelItem => item.Count)
                     </td>
                     <td>
                 </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>
