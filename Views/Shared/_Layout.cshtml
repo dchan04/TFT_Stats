@@ -3,27 +3,27 @@
     nav {
         box-shadow: inherit;
         border-style: hidden;
-        background-color: #0093E9;
-        background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+        background-color: #272727;
+        border-bottom-style: solid;
+        border-bottom-color: #747474;
     }
 
     body {
+        background-color: #272727 !important;
         position: relative;
         height: 100%;
-        min-height: 1520px;
+        min-height: 1080px;
         width: 100%;
         min-width: 1080px;
-        background-color: #08AEEA;
-        background-image: linear-gradient(90deg, #08AEEA 0%, #2AF598 100%);
     }
 
     footer {
-        bottom-border-
-        position: fixed;
+        position: sticky;
         bottom: 0;
         width: 100%;
-        background-color: #0093E9;
-        background-image: linear-gradient(0deg, #0093E9 0%, #80D0C7 100%);
+        background-color: #272727;
+        border-top-style: solid;
+        border-top-color: #747474;
     }
 
     .content-wrap {
@@ -31,6 +31,11 @@
         color: #ffffff;
         font-size: 24px;
         text-decoration: none;
+    }
+
+    .titlenav {
+        color: #14A76C !important;
+        padding-right: 3rem;
     }
 </style>
 <html lang="en">
@@ -45,7 +50,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-customblack box-shadow mb-4">
             <div class="container">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
+                <a class="navbar-brand titlenav" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -69,7 +74,7 @@
         </main>
     </div>
 
-    <footer class="footer text-muted border-dark box-shadow">
+    <footer class="footer">
         <div class="container content-wrap">
             &copy; 2021 - TFT_Stats
         </div>

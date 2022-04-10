@@ -45,26 +45,14 @@
 
     /* Button */
     .btn {
-        background: #85FFBD;
-        background-image: -webkit-linear-gradient(top, #85FFBD, #FFFB7D);
-        background-image: -moz-linear-gradient(top, #85FFBD, #FFFB7D);
-        background-image: -o-linear-gradient(top, #85FFBD, #FFFB7D);
-        background-image: linear-gradient(to bottom, #85FFBD, #FFFB7D);
-        -webkit-border-radius: 28;
-        -moz-border-radius: 28;
+        background: #272727;
         border-radius: 28px;
+        border-color: white;
         text-shadow: 1px 1px 0px #000000;
-        -webkit-box-shadow: 0px 0px 6px #00ffff;
-        -moz-box-shadow: 0px 0px 6px #00ffff;
-        box-shadow: 0px 0px 6px #00ffff;
     }
 
         .btn:hover {
-            background: #FFFB7D;
-            background-image: -webkit-linear-gradient(top, #FFFB7D, #85FFBD);
-            background-image: -moz-linear-gradient(top, #FFFB7D, #85FFBD);
-            background-image: -o-linear-gradient(top, #FFFB7D, #85FFBD);
-            background-image: linear-gradient(to bottom, #FFFB7D, #85FFBD);
+            background: #14A76C;
             text-decoration: none;
         }
 
@@ -98,23 +86,11 @@
             right: -2px;
             bottom: -2px;
             z-index: -1;
+            border-style: solid;
+            border-width: 4px;
+            border-radius: 15px;
+            background-color: #272727;
         }
-
-            .tilesWrap li.gold {
-                background: linear-gradient(to bottom, #FFFFFF, #FFD700);
-                border-radius: 15px;
-            }
-
-            .tilesWrap li.silver {
-                background: linear-gradient(to bottom, #FFFFFF, #C0C0C0);
-                border-radius: 15px;
-            }
-
-            .tilesWrap li.bronze {
-                background: linear-gradient(to bottom, #FFFFFF, #CD7F32);
-                border-radius: 15px;
-            }
-
 
     img {
         min-height: auto;
@@ -153,16 +129,17 @@
     }
 
     li span.score {
-        position: relative;
-        top: -10px;
-        height: 75px;
-        width: 75px;
-        font-size: 50px;
-        -webkit-text-stroke: 2px black;
-        -webkit-text-fill-color: white;
-        color: white;
-        border-radius: 50%;
-        display: inline-block;
+        position: absolute;
+        font-size: 35px;
+        min-width: 50px;
+        min-height: 20px;
+        top: 5px;
+        left: 5px;
+        text-align: center;
+        border-right: solid;
+        border-bottom: solid;
+        border-right-width: 5px;
+        border-bottom-width: 5px;
     }
 
 </style>
@@ -175,9 +152,9 @@
 
         <div class="top3 text-center">
             <ol class="tilesWrap">
-                <li class="gold"><img class="cImage" alt="first" src=@ViewBag.First> <span class="score"></span></li>
-                <li class="silver"><img class="cImage" alt="second" src=@ViewBag.Second> <span class="score"></span></li>
-                <li class="bronze"><img class="cImage" alt="third" src=@ViewBag.Third> <span class="score"></span></li>
+                <li class="gold"><img class="cImage" alt="first" src=@ViewBag.First> <span class="score">1</span></li>
+                <li class="silver"><img class="cImage" alt="second" src=@ViewBag.Second> <span class="score">2</span></li>
+                <li class="bronze"><img class="cImage" alt="third" src=@ViewBag.Third> <span class="score">3</span></li>
             </ol>
         </div>
 
