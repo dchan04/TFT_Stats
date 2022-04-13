@@ -8,6 +8,12 @@
         max-height: 50px;
     }
 
+    table {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 100px;
+    }
+
     table, tr, th, thead, tbody {
         color: white;
     }
@@ -16,8 +22,6 @@
         border: 2px solid #747474;
         margin-bottom: 5px;
     }
-
-
 
     tr {
         border-bottom-style: double;
@@ -55,10 +59,35 @@
             color: #14A76C;
         }
 
+    .optionBar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .btn-group .btn {
+        margin-left: 15px !important;
+    }
 </style>
 
+<div class="optionBar">
+
+    <div class="form-inline">
+        @using (Html.BeginForm("CompanionView", "Home", FormMethod.Get))
+        {
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new{@class = "form-control", @placeholder="Name.." })
+
+            <div class="btn-group">
+                @Html.DropDownList("speciesFilter", (IEnumerable<SelectListItem>)ViewBag.speciesList, "Select Species", new {@type="button", @class ="btn btn-info dropdown-toggle dropdown-toggle-split"});
+            </div>
+            <input class="btn btn-outline-success my-2 my-sm-0" value="Search" type="submit">
+        }
+    </div>
+</div>
+
 <div>
-    <table class="d-md-table">
+    <table class="d-lg-table">
         <thead>
             <tr>
                 <th>
@@ -80,7 +109,7 @@
                     Level 3
                 </th>
                 <th>
-                    @Html.ActionLink("Count", "CompanionView", new {sortOrder = ViewBag.Count}, new { @class = "my-class" })
+                    @Html.ActionLink("Count", "CompanionView", new {sortOrder = ViewBag.Count}, new { @class = "my-class"})
                 </th>
             </tr>
         </thead>
@@ -115,3 +144,6 @@
         </tbody>
     </table>
 </div>
+<script>
+
+</script>
