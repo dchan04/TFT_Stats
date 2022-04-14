@@ -31,7 +31,7 @@ namespace TFT_Stats.Services
         {
             Console.WriteLine("GetAdditionalCompanionInfo() has Started...");
             var companions = _context.Companions.Where(c => c.ImgPath == null).ToList();
-            var json = new WebClient().DownloadString("https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
+            var json = new WebClient().DownloadString("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/companions.json");
             dynamic jObj = JsonConvert.DeserializeObject<dynamic>(json);
             foreach (var companion in companions)
             {
