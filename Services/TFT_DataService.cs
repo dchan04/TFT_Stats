@@ -137,9 +137,9 @@ namespace TFT_Stats.Services
                     var count = _context.Companions.Count(c => c.Name == name);
 
                     //List of levels
-                    var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
-                    var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
-                    var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
+                    double lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
+                    double lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
+                    double lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
 
                     //Species name
                     var cSpecies = _context.Companions
@@ -152,11 +152,11 @@ namespace TFT_Stats.Services
                         .FirstOrDefault();
 
                     //Create VM Object
-                    newVM.Name = name;
+                    newVM.Name = name.Trim();
                     newVM.Count = count;
-                    newVM.Level1 = lvl1Count;
-                    newVM.Level2 = lvl2Count;
-                    newVM.Level3 = lvl3Count;
+                    newVM.Level1 = (float)Math.Round(Convert.ToSingle((lvl1Count / count) * 100f), 1);
+                    newVM.Level2 = (float)Math.Round(Convert.ToSingle((lvl2Count / count) * 100f), 1);
+                    newVM.Level3 = (float)Math.Round(Convert.ToSingle((lvl3Count / count) * 100f), 1);
                     newVM.Species = cSpecies.species;
                     newVM.ImgUrl = cSpecies.imgPath;
                     _context.CompanionViewModel.Add(newVM);
@@ -168,15 +168,16 @@ namespace TFT_Stats.Services
                     var count = _context.Companions.Count(c => c.Name == name);
 
                     //List of levels
-                    var lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
-                    var lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
-                    var lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
+                    double lvl1Count = _context.Companions.Where(c => c.Name == name && c.Level == 1).Count();
+                    double lvl2Count = _context.Companions.Where(c => c.Name == name && c.Level == 2).Count();
+                    double lvl3Count = _context.Companions.Where(c => c.Name == name && c.Level == 3).Count();
 
                     //Update count
+                    CompanionObj.Name = name.Trim();
                     CompanionObj.Count = count;
-                    CompanionObj.Level1 = lvl1Count;
-                    CompanionObj.Level2 = lvl2Count;
-                    CompanionObj.Level3 = lvl3Count;
+                    CompanionObj.Level1 = (float)Math.Round(Convert.ToSingle((lvl1Count / count) * 100f), 1);
+                    CompanionObj.Level2 = (float)Math.Round(Convert.ToSingle((lvl2Count / count) * 100f), 1);
+                    CompanionObj.Level3 = (float)Math.Round(Convert.ToSingle((lvl3Count / count) * 100f), 1);
                     _context.CompanionViewModel.Update(CompanionObj);
                 }
                 _context.SaveChanges();

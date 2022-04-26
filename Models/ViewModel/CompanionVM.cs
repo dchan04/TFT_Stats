@@ -13,11 +13,11 @@ namespace TFT_Stats.Models.ViewModel
 
         public String Species { get; set; }
 
-        public int Level1 { get; set; }
+        public float Level1 { get; set; }
 
-        public int Level2 { get; set; }
+        public float Level2 { get; set; }
 
-        public int Level3 { get; set; }
+        public float Level3 { get; set; }
 
         public int Count { get; set; }
 

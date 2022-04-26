@@ -27,9 +27,6 @@ namespace TFT_Stats.Controllers
 
         public IActionResult CompanionView(string sortOrder, string currentFilter, string searchString, string speciesFilter)
         {
-            Console.WriteLine($"{speciesFilter}");
-            //Console.WriteLine($"{currentFilter}");
-            Console.WriteLine($"{searchString}");
             ViewBag.NameSortParm = sortOrder == "name_ascen" ? "name_desc" : "name_ascen";
             ViewBag.Species = sortOrder == "species_ascen" ? "species_desc" : "species_ascen";
             ViewBag.Count = String.IsNullOrEmpty(sortOrder) ? "count_ascen" : "";
