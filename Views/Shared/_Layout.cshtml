@@ -46,10 +46,13 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
+    <header class="sticky-top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-customblack box-shadow mb-4">
             <div class="container">
-                <a class="navbar-brand titlenav" asp-area="" asp-controller="Home" asp-action="Index">TFT_Stats</a>
+                <a class="navbar-brand titlenav" asp-area="" asp-controller="Home" asp-action="Index">
+                    TFT_Stats
+                    <img src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/tft/img/game-select-icon-hover.png" width="30" height="30" alt="">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
